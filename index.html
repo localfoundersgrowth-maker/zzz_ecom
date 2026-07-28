@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Calculator</title>
+
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+
+<section id="app" class="section">
+
+  <!-- SUMMARY BADGES -->
+  <div class="badge-row">
+    <span class="badge badge-emerald" id="badgeVideos"></span>
+    <span class="badge badge-blue" id="badgeViews"></span>
+    <span class="badge badge-yellow" id="badgeSignups"></span>
+    <span class="badge badge-purple" id="badgeNet"></span>
+  </div>
+
+  <!-- MAIN EMERALD WRAPPER -->
+  <div id="youtube-calculator" class="card emerald-card">
+
+    <!-- CHANNEL BUTTONS -->
+    <div class="channel-row">
+
+      <div class="channel-group">
+        <span class="label"># of Channels</span>
+        <div id="channelsButtons" class="btn-row"></div>
+      </div>
+
+      <div class="channel-group">
+        <span class="label">Daily Videos per Channel</span>
+        <div id="videosButtons" class="btn-row"></div>
+      </div>
+
+    </div>
+
+    <!-- YOUTUBE PERFORMANCE -->
+    <div class="grid grid-3">
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">Average views per video</div>
+          <div class="gt-value" id="viewsPerVideoValue"></div>
+          <input type="range" id="viewsPerVideo" min="200" max="100000" step="100" />
+        </div>
+      </div>
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">RPM (per 1k views)</div>
+          <div class="gt-value" id="rpmValue"></div>
+          <input type="range" id="rpm" min="3" max="20" step="0.5" />
+        </div>
+      </div>
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">Click‑through to GoTrade (%)</div>
+          <div class="gt-value" id="ctrValue"></div>
+          <input type="range" id="ctr" min="0.1" max="3" step="0.1" />
+        </div>
+      </div>
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">GoTrade signup conversion (%)</div>
+          <div class="gt-value" id="signupValue"></div>
+          <input type="range" id="signup" min="5" max="30" step="1" />
+        </div>
+      </div>
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">Value per GoTrade user ($)</div>
+          <div class="gt-value" id="valueUserValue"></div>
+          <input type="range" id="valueUser" min="5" max="150" step="5" />
+        </div>
+      </div>
+
+      <div class="card emerald-sub">
+        <div class="gt-slider">
+          <div class="gt-title">Average video length (minutes)</div>
+          <div class="gt-value" id="videoLengthValue"></div>
+          <input type="range" id="videoLength" min="1" max="20" step="1" />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EXPENSES -->
+    <div class="grid grid-3">
+
+      <div class="card red-sub">
+        <div class="gt-slider">
+          <div class="gt-title">AI Voice</div>
+          <div class="gt-value" id="aiVoiceValue"></div>
+          <input type="range" id="aiVoice" min="0" max="150" step="5" />
+        </div>
+      </div>
+
+      <div class="card red-sub">
+        <div class="gt-slider">
+          <div class="gt-title">OpenClaw</div>
+          <div class="gt-value" id="openClawValue"></div>
+          <input type="range" id="openClaw" min="0" max="200" step="5" />
+        </div>
+      </div>
+
+      <div class="card red-sub">
+        <div class="gt-slider">
+          <div class="gt-title">Video Editing</div>
+          <div class="gt-value" id="videoEditValue"></div>
+          <input type="range" id="videoEdit" min="0" max="300" step="10" />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUMMARY GRID -->
+    <div class="grid grid-3">
+
+      <!-- Revenue -->
+      <div class="card emerald-card">
+        <p class="section-title">Monthly Revenue Summary</p>
+
+        <div class="summary-col">
+
+          <div class="summary-row emerald-sub">
+            <span class="summary-label">YT Ad Revenue:</span>
+            <span class="summary-value" id="ytRevenue"></span>
+          </div>
+
+          <div class="summary-row emerald-sub">
+            <span class="summary-label">GoTrade Signups:</span>
+            <span class="summary-value" id="goTradeRevenue"></span>
+          </div>
+
+          <div class="summary-row emerald-sub">
+            <span class="summary-label">Total Revenue:</span>
+            <span class="summary-value total" id="totalRevenue"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Expenses -->
+      <div class="card red-card">
+        <p class="section-title">Monthly Expenses & Net Profit</p>
+
+        <div class="summary-col">
+
+          <div class="summary-row red-sub">
+            <span class="summary-label">Total AI Tools:</span>
+            <span class="summary-value" id="totalExpenses"></span>
+          </div>
+
+          <div class="summary-row red-sub">
+            <span class="summary-label">Net Profit:</span>
+            <span class="summary-value total" id="netProfit"></span>
+          </div>
+
+          <div class="summary-row slate-sub">
+            <span class="summary-label">Clicks → GoTrade:</span>
+            <span class="summary-value" id="clicks"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Efficiency -->
+      <div class="card slate-card">
+        <p class="section-title">Efficiency Metrics</p>
+
+        <div class="summary-col">
+
+          <div class="summary-row slate-sub">
+            <span class="summary-label">Revenue per view:</span>
+            <span class="summary-value" id="revPerView"></span>
+          </div>
+
+          <div class="summary-row slate-sub">
+            <span class="summary-label">Revenue per video:</span>
+            <span class="summary-value" id="revPerVideo"></span>
+          </div>
+
+          <div class="summary-row slate-sub">
+            <span class="summary-label">Revenue per channel:</span>
+            <span class="summary-value" id="revPerChannel"></span>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- END SUMMARY GRID -->
+
+  </div> <!-- END MAIN EMERALD WRAPPER -->
+
+
+
+
+
+<!-- ==========================
+     LOAN CALCULATOR
+     ========================== -->
+<div class="card emerald-card" style="margin-top:40px;">
+
+  <p class="section-title">Loan Calculator at fixed 20% ROI per pallet Average</p>
+
+  <!-- LOAN DETAILS -->
+  <div class="grid grid-3">
+
+    <div class="card emerald-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Loan Amount ($)</div>
+        <div class="gt-value" id="loanAmountValue"></div>
+        <input type="range" id="loanAmount" min="10000" max="75000" step="5000" />
+      </div>
+    </div>
+
+    <div class="card emerald-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Loan Term (months)</div>
+        <div class="gt-value" id="loanTermValue"></div>
+        <input type="range" id="loanTerm" min="3" max="12" step="1" />
+      </div>
+    </div>
+
+    <div class="card emerald-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Interest Rate (%)</div>
+        <div class="gt-value" id="interestRateValue"></div>
+        <input type="range" id="interestRate" min="0" max="20" step="1" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PALLET PERFORMANCE -->
+  <div class="grid grid-3">
+
+    <div class="card emerald-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Avg Pallet Cost ($)</div>
+        <div class="gt-value" id="palletCostValue"></div>
+        <input type="range" id="palletCost" min="200" max="1500" step="50" />
+      </div>
+    </div>
+
+    <div class="card emerald-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Pallets per Month</div>
+        <div class="gt-value" id="palletsPerMonthValue"></div>
+        <input type="range" id="palletsPerMonth" min="5" max="30" step="1" />
+      </div>
+    </div>
+
+    <div class="card red-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Shipping + Supplies ($/month)</div>
+        <div class="gt-value" id="shippingCostValue"></div>
+        <input type="range" id="shippingCost" min="50" max="2000" step="25" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card red-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Chris Expense /m</div>
+        <div class="gt-value" id="chrisExpenseValue"></div>
+        <input type="range" id="chrisExpense" min="0" max="4000" step="50" />
+      </div>
+    </div>
+    <div class="card red-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Ray Expense /m</div>
+        <div class="gt-value" id="rayExpenseValue"></div>
+        <input type="range" id="rayExpense" min="0" max="4000" step="50" />
+      </div>
+    </div>
+    <div class="card red-sub">
+      <div class="gt-slider">
+        <div class="gt-title">Misc Expense /m</div>
+        <div class="gt-value" id="miscExpenseValue"></div>
+        <input type="range" id="miscExpense" min="0" max="4000" step="50" />
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <p class="section-title">results</p>
+  <div class="grid grid-3">
+
+    <!-- CARD 1 -->
+    <div class="card emerald-card">
+      <p class="section-title">Monthly Results</p>
+      <div class="summary-col">
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Monthly Gross (before expenses):</span>
+          <span class="summary-value" id="monthlyGross"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Monthly Net (after expenses):</span>
+          <span class="summary-value" id="monthlyNet"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Monthly Expenses:</span>
+          <span class="summary-value total" id="totalMonthlyExpenses"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card emerald-card">
+      <p class="section-title">Term Results</p>
+      <div class="summary-col">
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Gross Profit (Term):</span>
+          <span class="summary-value" id="totalGrossProfit"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Net Profit (Term):</span>
+          <span class="summary-value" id="totalNetProfit"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Expenses (Term):</span>
+          <span class="summary-value total" id="totalExpensesTerm"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card emerald-card">
+      <p class="section-title">Loan Results</p>
+      <div class="summary-col">
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Payback:</span>
+          <span class="summary-value" id="totalPayback"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total Interest Paid (cash):</span>
+          <span class="summary-value" id="totalInterestPaid"></span>
+        </div>
+        <div class="summary-row emerald-sub">
+          <span class="summary-label">Total ROI % (Term):</span>
+          <span class="summary-value" id="totalRoi"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+</body>
+</html>

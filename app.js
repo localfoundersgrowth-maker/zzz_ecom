@@ -22,9 +22,9 @@ const state = {
   loanTerm: 6,
   interestRate: 10,
   roi: 20,
-  palletCost: 600,
-  palletsPerMonth: 10,
-  shippingCost: 300,
+  palletCost: 800,
+  palletsPerMonth: 25,
+  shippingCost: 150,
   chrisExpense: 0,
   rayExpense: 0,
   miscExpense: 0
